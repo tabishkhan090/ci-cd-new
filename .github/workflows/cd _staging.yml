@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploying everything to the staging cluster
     steps:
-      - run: |
+      -run: |
         echo ${{secrets.SSH_PRIVATE_KEY}} &> ~/ssh_key
         ssh -i ~/ssh mrkhan@20.187.144.240
         cd ci-cd-new && git pull
