@@ -12,8 +12,9 @@ jobs:
       - name: Deploy to VM
         run: |
           # Write SSH private key
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
+          ssh -v -o StrictHostKeyChecking=no -i ~/ssh_key Mrkhan@20.187.144.240 exit
 
           # Connect and deploy
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key Mrkhan@20.187.144.240 << 'EOF'
@@ -27,7 +28,7 @@ jobs:
             pnpm install
             pnpm run build
 
-            pm2 restart fe-server
+            pm2 restart web
             pm2 restart http-server
             pm2 restart ws-server
           EOF
