@@ -16,7 +16,7 @@ jobs:
           chmod 600 ~/ssh_key
 
           # Connect and deploy
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key mrkhan@20.187.144.240 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key Mrkhan@20.187.144.240 << 'EOF'
             cd ~/ci-cd-new
             git pull origin main
 
