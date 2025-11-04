@@ -1,34 +1,34 @@
-name: Deploy to staging
+- name: Deploy to VM
+  run: |
+    # Write SSH private key
+    printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+    chmod 600 ~/ssh_key
 
-on:
-  push:
-    branches: [ main ]
+    # Connect and deploy
+    ssh -o StrictHostKeyChecking=no -i ~/ssh_key Mrkhan@20.187.144.240 << 'EOF'
+      set -e
 
-jobs:
-  redeploy_everything:
-    runs-on: ubuntu-latest
-    name: Deploying everything to the staging cluster
-    steps:
-      - name: Deploy to VM
-        run: |
-          # Write SSH private key
-          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
-          chmod 600 ~/ssh_key
-          ssh -v -o StrictHostKeyChecking=no -i ~/ssh_key Mrkhan@20.187.144.240 exit
+      cd ~/ci-cd-new
+      git config pull.rebase false
+      git pull origin main
 
-          # Connect and deploy
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key Mrkhan@20.187.144.240 << 'EOF'
-            cd ~/ci-cd-new
-            git pull origin main
+      # ✅ Load your environment manually
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-            # Ensure pnpm is available
-            export PATH=/root/.nvm/versions/node/v22.13.1/bin:$PATH
-            npm install -g pnpm
+      # Also include global npm binaries (in case pm2/pnpm installed globally)
+      export PATH=\$PATH:/usr/local/bin:\$HOME/.nvm/versions/node/$(node -v)/bin:\$HOME/.local/bin
 
-            pnpm install
-            pnpm run build
+      echo "Using Node.js version: $(node -v)"
+      echo "Using npm version: $(npm -v)"
+      echo "Using pnpm version: $(pnpm -v)"
+      echo "Using pm2 version: $(pm2 -v)"
 
-            pm2 restart web
-            pm2 restart http-server
-            pm2 restart ws-server
-          EOF
+      pnpm install
+      pnpm run build
+
+      pm2 restart web || pm2 start dist/web.js --name web
+      pm2 restart http-server || pm2 start dist/http-server.js --name http-server
+      pm2 restart ws-server || pm2 start dist/ws-server.js --name ws-server
+    EOF
