@@ -5,7 +5,7 @@ const user = await client.user.findFirst();
   return (
     <div>
       <div>First name Tabish: {user?.username}</div>
-      <div>Password: {user?.password}</div>
+      <div>Password***: {user?.password}</div>
     </div>
   );
 }
