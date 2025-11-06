@@ -1,11 +1,7 @@
-import { client } from "@repo/db/client";
-
-export default async function Home() {
-const user = await client.user.findFirst();
+export default function Home() {
   return (
-    <div>
-      <div>First name Tabish: {user?.username}</div>
-      <div>Password***: {user?.password}</div>
+    <div style={{ fontSize: "32px", padding: "40px", textAlign: "center" }}>
+      i love you sumaiya ❤️
     </div>
   );
 }
