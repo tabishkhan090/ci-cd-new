@@ -6,7 +6,8 @@ export default function Home() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        minHeight: "100vh",
+        padding: "20px",
         background: "linear-gradient(135deg, #ff9a9e, #fad0c4, #fcbad3, #ffdde1)",
         animation: "bgAnimation 12s ease-in-out infinite",
         backgroundSize: "400% 400%",
@@ -38,10 +39,10 @@ export default function Home() {
       <style>
         {`
           .love-text {
-            font-size: 52px;
+            font-size: 36px;
             font-weight: 700;
             color: #b30059;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
             animation: fadeIn 2s ease-in-out, heartbeat 1.5s infinite;
             display: block;
             margin-left: auto;
@@ -73,9 +74,9 @@ export default function Home() {
 
           .flower {
             position: absolute;
-            font-size: 32px;
+            font-size: 20px;
             animation: float 8s infinite ease-in-out;
-            opacity: 0.8;
+            opacity: 0.55;
           }
 
           .flower:nth-child(1) { left: 10%; animation-delay: 0s; }
@@ -95,11 +96,12 @@ export default function Home() {
           }
 
           .love-message {
-            font-size: 24px;
-            margin-top: 20px;
+            font-size: 16px;
+            margin-top: 12px;
             color: #7a0040;
             text-align: center;
-            max-width: 700px;
+            max-width: 90%;
+            line-height: 1.35;
             animation: fadeIn 3s ease-in-out;
           }
 
@@ -107,6 +109,24 @@ export default function Home() {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+          }
+
+          @media (max-width: 600px) {
+            .love-text {
+              font-size: 26px;
+              padding: 10px 14px;
+              border-width: 0px;
+            }
+
+            .love-message {
+              font-size: 14px;
+              max-width: 95%;
+            }
+
+            .flower {
+              font-size: 16px;
+              opacity: 0.45;
+            }
           }
         `}
       </style>
