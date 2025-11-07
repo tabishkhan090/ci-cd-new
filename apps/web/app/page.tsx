@@ -1,12 +1,5 @@
 export default function Home() {
   return (
-<<<<<<< HEAD
-    <div>
-      First name Tabish: 
-      {user?.username}
-      password: 
-      {user?.password}
-=======
     <div
       style={{
         position: "relative",
@@ -137,7 +130,6 @@ export default function Home() {
           }
         `}
       </style>
->>>>>>> main
     </div>
   );
 }
